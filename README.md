@@ -4,6 +4,11 @@
 
 Wasm parse markdown
 
+
+## Demo
+
+![demo](./demo.png)
+
 ## Use
 
 ```bash
