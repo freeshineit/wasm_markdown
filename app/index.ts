@@ -1,42 +1,47 @@
 import "./style.scss";
 
 import("../wasm/pkg").then((module) => {
-  const textDom = document.getElementById("text") as HTMLTextAreaElement;
+  const textDom = document.getElementById("editor") as HTMLTextAreaElement;
 
   function init() {
     const t = `
 # Header1
 
 ## Header2
+ 
 
 
-aee qeqweq
-qwerqwe 
+## Paragraphs
 
-marked
+I really like using Markdown.
+
+I think I'll use it to format all of my documents from now on.
 
 ## List
 
-* 第一项
-* 第二项
-* 第三项
+* First item
+* Second item
+* Third item
 
-+ 第一项
-+ 第二项
-+ 第三项
++ First item
++ Second item
++ Third item
 
 
-- 第一项
-- 第二项
-- 第三项
+- First item
+- Second item
+- Third item
 
-## Block
 
-> 区块引用
+- First item
+- Indented item
+    - Indented item
 
-> 菜鸟教程
+## Blockquote
 
-> 学的不仅是技术更是梦想
+> Dorothy followed her through many of the beautiful rooms in her castle.
+>
+>> The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.
 
 ## Code
 
@@ -98,7 +103,11 @@ ___粗斜体文本___
 
 ~~BAIDU.COM~~
 
+## Html Tag
 
+This **word** is bold. This <em>word</em> is italic.
+
+<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Del</kbd>
 
 ## Footnote
 
@@ -108,12 +117,6 @@ Here is a footnote reference,[^1] and another.[^longnote]
 
 [^longnote]: Here's one with multiple blocks.
 
-
-## Html Tag
-
-<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Del</kbd>
-
-    
     `;
 
     textDom.value = t;
@@ -140,7 +143,7 @@ Here is a footnote reference,[^1] and another.[^longnote]
    * @param html
    */
   function renderDome(html: string) {
-    document.getElementById("html").innerHTML = html;
+    document.getElementById("preview").innerHTML = html;
   }
 
   // textarea listen input event
