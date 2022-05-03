@@ -3,6 +3,8 @@ import "./style.scss";
 import("../wasm/pkg").then((module) => {
   const textDom = document.getElementById("editor") as HTMLTextAreaElement;
 
+  const preview = document.getElementById("preview");
+
   function init() {
     const t = `
 # Header1
@@ -143,7 +145,7 @@ Here is a footnote reference,[^1] and another.[^longnote]
    * @param html
    */
   function renderDome(html: string) {
-    document.getElementById("preview").innerHTML = html;
+    preview.innerHTML = html;
   }
 
   // textarea listen input event
