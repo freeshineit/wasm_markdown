@@ -7,10 +7,10 @@ import("../wasm/pkg").then((module) => {
 
   function init() {
     const t = `
-# Header1
+# Header1 {#top}
 
 ## Header2
- 
+
 
 
 ## Paragraphs
@@ -21,9 +21,9 @@ I think I'll use it to format all of my documents from now on.
 
 ## List
 
-* First item
-* Second item
-* Third item
+* [x] First item
+* [x] Second item
+* [x] Third item
 
 + First item
 + Second item
@@ -61,18 +61,26 @@ console.log('javascript')
 
 ## Table
 
-|  表头   | 表头  |
-|  ----  | ----  |
-| 单元格  | 单元格 |
-| 单元格  | 单元格 |
+|  th1  | th2  |
+| ----  | ---- |
+| td  | td |
+| td  | td |
 
 
 
-| 左对齐 | 右对齐 | 居中对齐 |
-| :-----| ----: | :----: |
-| 单元格 | 单元格 | 单元格 |
-| 单元格 | 单元格 | 单元格 |
+| th(left) | th(center) | th(right) |
+| :-----| :----: | ----: |
+| td | td | td |
+| td | td | td |
 
+
+## mark
+
+I need to highlight these <mark>very important words</mark>.
+
+## Smart Punctuation
+
+"CommonMark is the PHP League's Markdown parser," she said.  "It's super-configurable... you can even use additional extensions to expand its capabilities -- just like this one!"
 
 ## Font
 

@@ -5,9 +5,12 @@ use wasm_bindgen::prelude::*;
 pub fn parser(text: &str) -> String {
     let mut options = Options::empty();
 
-    options.insert(Options::ENABLE_STRIKETHROUGH); // 删除线
-    options.insert(Options::ENABLE_TABLES); // table
-    options.insert(Options::ENABLE_FOOTNOTES); // 脚注
+    options.insert(Options::ENABLE_STRIKETHROUGH); // 启用删除线
+    options.insert(Options::ENABLE_TABLES); // 启用table
+    options.insert(Options::ENABLE_FOOTNOTES); // 启用脚注
+    options.insert(Options::ENABLE_TASKLISTS); // 启用任务列表
+                                               // options.insert(Options::ENABLE_SMART_PUNCTUATION); // 启用智能标点符号
+                                               // options.insert(Options::ENABLE_HEADING_ATTRIBUTES); // 启用标题属性
     let parser = Parser::new_ext(text, options);
 
     // Write to String buffer.
