@@ -2,12 +2,13 @@ const path = require("path");
 const WasmPackPlugin = require("@wasm-tool/wasm-pack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
-const distPath = path.resolve(__dirname, "dist");
 module.exports = (env, argv) => {
+  const isProd = argv.mode === "production";
+  const distPath = path.resolve(__dirname, isProd ? "docs" : "dist");
   return {
     devServer: {
       contentBase: distPath,
-      compress: argv.mode === "production",
+      compress: isProd,
       port: 8000
     },
     entry: "./app/index.ts",
