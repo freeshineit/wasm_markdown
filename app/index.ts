@@ -1,3 +1,5 @@
+import Split from "split.js";
+
 import "./style.scss";
 
 import("../wasm/pkg").then((module) => {
@@ -132,9 +134,40 @@ Here is a footnote reference,[^1] and another.[^longnote]
     textDom.value = t;
     // console.log(parseText2Html(t));
     renderDome(parseText2Html(t));
+
+    // 屏蔽 “ctrl+s” 保存页面
+    window.addEventListener(
+      "keydown",
+      (e) => {
+        if (
+          e.keyCode === 83 &&
+          (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)
+        ) {
+          e.preventDefault();
+        }
+      },
+      false
+    );
   }
 
+  setSplit();
   init();
+
+  function setSplit() {
+    const splitSizes: string = localStorage.getItem("split-sizes");
+    let sizes = [50, 50];
+    try {
+      sizes = JSON.parse(splitSizes) as [number, number];
+    } catch (error) {}
+
+    Split(["#editor", "#preview"], {
+      sizes,
+      minSize: [300, 300],
+      onDragEnd: function (sizes) {
+        localStorage.setItem("split-sizes", JSON.stringify(sizes));
+      }
+    });
+  }
 
   /**
    * parse text to html

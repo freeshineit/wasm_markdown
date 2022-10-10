@@ -26,7 +26,6 @@
     }
 
     textarea {
-      width: 100%;
       min-height: 100vh;
       border: 0;
       padding: 20px;
@@ -40,25 +39,33 @@
     }
 
     #preview {
-      width: 50%;
+      flex: 1 1 auto;
       min-height: 100vh;
       padding: 20px;
       background-color: #fff;
       overflow-y: auto;
       overflow-x: hidden;
     }
+
+    .gutter {
+      background-color: #eee;
+      background-repeat: no-repeat;
+      background-position: 50%;
+    }
+
+    .gutter.gutter-horizontal {
+      background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+      cursor: col-resize;
+    }
   </style>
 </head>
 
 <body>
   <div class="container">
-    <div id="editorBox">
-      <textarea id="editor" rows="5" cols="33">
-      </textarea>
-    </div>
+    <textarea id="editor" rows="5" cols="33"></textarea>
     <div id="preview" class="markdown-body"></div>
   </div>
-  <script src="/index.js"></script>
+  <script src="./index.js"></script>
 </body>
 
 </html>
