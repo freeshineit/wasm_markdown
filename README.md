@@ -1,4 +1,4 @@
-## wasm markdown
+# Wasm Markdown
 
 ## Description
 
