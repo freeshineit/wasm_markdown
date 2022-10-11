@@ -2,10 +2,13 @@ import Split from "split.js";
 
 import "./style.scss";
 
+const MARKDOWN_TEXT_KEY = "markdown-text";
+
 import("../wasm/pkg").then((module) => {
   const textDom = document.getElementById("editor") as HTMLTextAreaElement;
-
   const preview = document.getElementById("preview");
+
+  const text = localStorage.getItem(MARKDOWN_TEXT_KEY);
 
   function init() {
     const t = `
@@ -131,9 +134,11 @@ Here is a footnote reference,[^1] and another.[^longnote]
 
     `;
 
-    textDom.value = t;
-    // console.log(parseText2Html(t));
-    renderDome(parseText2Html(t));
+    textDom.value = text || t;
+
+    renderDome(parseText2Html(textDom.value));
+
+    // 滚动
 
     // 屏蔽 “ctrl+s” 保存页面
     window.addEventListener(
@@ -175,9 +180,11 @@ Here is a footnote reference,[^1] and another.[^longnote]
    * @returns
    */
   function parseText2Html(text: string) {
+    localStorage.setItem(MARKDOWN_TEXT_KEY, text);
     console.time("parse");
     const html = module.parser(text);
     console.timeEnd("parse");
+
     return html;
   }
 
@@ -189,8 +196,50 @@ Here is a footnote reference,[^1] and another.[^longnote]
     preview.innerHTML = html;
   }
 
+  const debounceFn = debounce(() => {
+    var val = textDom.value;
+    localStorage.setItem(MARKDOWN_TEXT_KEY, val);
+    renderDome(parseText2Html(val));
+  });
+
   // textarea listen input event
   textDom.addEventListener("input", (e) => {
-    renderDome(parseText2Html(textDom.value));
+    new Promise(() => {
+      //优化防抖
+      debounceFn();
+    });
   });
+
+  /**
+   * 防抖
+   * @param fn 回调
+   * @param delay 时间(单位ms)
+   * @returns Function
+   */
+  function debounce(fn: Function, delay?: number) {
+    var timeout: number = null;
+    return function () {
+      if (timeout !== null) clearTimeout(timeout);
+      timeout = setTimeout(fn, delay || 100);
+    };
+  }
+
+  // /**
+  //  * 节流
+  //  * @param fn 回调
+  //  * @param delay 时间(单位ms)
+  //  * @returns Function
+  //  */
+  // function throttle(fn: Function, delay?: number) {
+  //   var prev = Date.now();
+  //   return function () {
+  //     var context = this;
+  //     var args = arguments;
+  //     var now = Date.now();
+  //     if (now - prev >= delay || 100) {
+  //       fn.apply(context, args);
+  //       prev = Date.now();
+  //     }
+  //   };
+  // }
 });
