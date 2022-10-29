@@ -938,4 +938,33 @@
   .markdown-body ::-webkit-calendar-picker-indicator {
     filter: invert(50%);
   }
-  
+
+
+  .markdown-body .footnote-definition {
+    display: flex;
+    line-height: 24px;
+  }
+
+  .markdown-body .footnote-definition sup {
+    top: 0;
+    line-height: 24px;
+    margin-right: 5px;
+    font-size: 1em;
+  }
+  .markdown-body .footnote-definition p {
+    margin-bottom: 0;
+  }
+
+
+  /*  */
+
+
+  .markdown-body ul:has(li input) {
+    padding-left: 0.9em;
+  }
+
+  .markdown-body ul li:has(input)::marker {
+    content:  '';
+    display: none;
+  }
+
