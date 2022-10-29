@@ -30,6 +30,11 @@ I think I'll use it to format all of my documents from now on.
 * [x] Second item
 * [x] Third item
 
+
+1. First item 1.
+2. Second item 2.
+3. Third item 3.
+
 + First item
 + Second item
 + Third item
@@ -53,6 +58,8 @@ I think I'll use it to format all of my documents from now on.
 ## Code
 
 \`\`\`javascript
+console.log('javascript')
+console.log('javascript')
 console.log('javascript')
 \`\`\`
 
@@ -126,11 +133,11 @@ This **word** is bold. This <em>word</em> is italic.
 
 ## Footnote
 
-Here is a footnote reference,[^1] and another.[^longnote]
+Here is a footnote reference,[^1] and another.[^2]
 
 [^1]: Here is the footnote.
 
-[^longnote]: Here's one with multiple blocks.
+[^2]: Here's one with multiple blocks.
 
     `;
 
@@ -153,6 +160,22 @@ Here is a footnote reference,[^1] and another.[^longnote]
       },
       false
     );
+
+    document.getElementById("download").addEventListener(
+      "click",
+      () => {
+        fileDownload(textDom.value, "markdown.md");
+      },
+      false
+    );
+
+    // document.getElementById("downloadPDF").addEventListener(
+    //   "click",
+    //   () => {
+    //     fileDownload(textDom.value, "markdown.md");
+    //   },
+    //   false
+    // );
   }
 
   setSplit();
@@ -196,7 +219,7 @@ Here is a footnote reference,[^1] and another.[^longnote]
     preview.innerHTML = html;
   }
 
-  const debounceFn = debounce(() => {
+  const throttleFn = throttle(() => {
     var val = textDom.value;
     localStorage.setItem(MARKDOWN_TEXT_KEY, val);
     renderDome(parseText2Html(val));
@@ -204,42 +227,69 @@ Here is a footnote reference,[^1] and another.[^longnote]
 
   // textarea listen input event
   textDom.addEventListener("input", (e) => {
-    new Promise(() => {
-      //优化防抖
-      debounceFn();
-    });
+    //优化 节流
+    throttleFn();
   });
+});
 
-  /**
-   * 防抖
-   * @param fn 回调
-   * @param delay 时间(单位ms)
-   * @returns Function
-   */
-  function debounce(fn: Function, delay?: number) {
-    var timeout: number = null;
-    return function () {
-      if (timeout !== null) clearTimeout(timeout);
-      timeout = setTimeout(fn, delay || 100);
-    };
+/**
+ * 节流
+ * @param fn
+ * @param delay
+ * @returns
+ */
+function throttle(fn: Function, delay?: number) {
+  let valid = true;
+  return function () {
+    if (!valid) {
+      return false;
+    }
+    valid = false;
+    setTimeout(() => {
+      fn();
+      valid = true;
+    }, delay || 250);
+  };
+}
+/**
+ *
+ * @param data
+ * @param filename
+ * @param mime
+ * @param bom
+ */
+function fileDownload(
+  data: string | ArrayBuffer | ArrayBufferView | Blob,
+  filename: string,
+  mime?: string,
+  bom?: string | Uint8Array
+) {
+  var blobData = typeof bom !== "undefined" ? [bom, data] : [data];
+  var blob = new Blob(blobData, { type: mime || "application/octet-stream" });
+
+  var blobURL =
+    window.URL && window.URL.createObjectURL
+      ? window.URL.createObjectURL(blob)
+      : window.webkitURL.createObjectURL(blob);
+  var tempLink = document.createElement("a");
+  tempLink.style.display = "none";
+  tempLink.href = blobURL;
+  tempLink.setAttribute("download", filename);
+
+  // Safari thinks _blank anchor are pop ups. We only want to set _blank
+  // target if the browser does not support the HTML5 download attribute.
+  // This allows you to download files in desktop safari if pop up blocking
+  // is enabled.
+  if (typeof tempLink.download === "undefined") {
+    tempLink.setAttribute("target", "_blank");
   }
 
-  // /**
-  //  * 节流
-  //  * @param fn 回调
-  //  * @param delay 时间(单位ms)
-  //  * @returns Function
-  //  */
-  // function throttle(fn: Function, delay?: number) {
-  //   var prev = Date.now();
-  //   return function () {
-  //     var context = this;
-  //     var args = arguments;
-  //     var now = Date.now();
-  //     if (now - prev >= delay || 100) {
-  //       fn.apply(context, args);
-  //       prev = Date.now();
-  //     }
-  //   };
-  // }
-});
+  document.body.appendChild(tempLink);
+  tempLink.click();
+
+  // Fixes "webkit blob resource error 1"
+  setTimeout(function () {
+    document.body.removeChild(tempLink);
+    window.URL.revokeObjectURL(blobURL);
+  }, 200);
+}
