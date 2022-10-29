@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Wasm Canvas</title>
+  <title>Wasm Parse Markdown</title>
   <link href="./github-markdown.css" rel="stylesheet" />
   <style>
     * {
@@ -14,7 +14,7 @@
     }
 
     .container {
-      height: 100vh;
+      height: calc(100vh - 60px);
       display: flex;
     }
 
@@ -26,7 +26,7 @@
     }
 
     textarea {
-      min-height: 100vh;
+      flex: 1 1 auto;
       border: 0;
       padding: 20px;
       display: inline-block;
@@ -38,9 +38,14 @@
       border: 0;
     }
 
+    textarea {
+      resize: none;
+      border: none;
+      outline: none;
+    }
+
     #preview {
       flex: 1 1 auto;
-      min-height: 100vh;
       padding: 20px;
       background-color: #fff;
       overflow-y: auto;
@@ -61,10 +66,15 @@
 </head>
 
 <body>
+
   <div class="container">
     <textarea id="editor" rows="5" cols="33"></textarea>
     <div id="preview" class="markdown-body"></div>
   </div>
+  <footer class="footer">
+    <button id="download">Download MD</button>
+    <!-- <button id="downloadPDF">download PDF</button> -->
+  </footer>
   <script src="./index.js"></script>
 </body>
 
