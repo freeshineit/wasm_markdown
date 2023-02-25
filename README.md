@@ -1,5 +1,7 @@
 # Wasm Markdown
 
+![build](https://github.com/freeshineit/wasm_markdown/workflows/build/badge.svg)
+
 ## Description
 
 Wasm parse markdown
