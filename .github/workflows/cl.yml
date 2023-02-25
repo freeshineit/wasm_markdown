@@ -2,8 +2,9 @@ name: FreeShineit Blog
 
 on:
   push:
-    branches:
-      - main
+    branches: ["main", "dev"]
+  pull_request:
+    branches: ["main"]
 
 jobs:
   build:
@@ -11,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x]
+        node-version: [14.x, 16.x, 18.x]
 
     steps:
       - uses: actions/checkout@v2
