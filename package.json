@@ -17,6 +17,7 @@
     "build:dev": "webpack --mode development"
   },
   "dependencies": {
+    "github-markdown-css": "^5.2.0",
     "split.js": "^1.6.5"
   },
   "devDependencies": {

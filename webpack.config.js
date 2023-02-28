@@ -26,6 +26,10 @@ module.exports = (env, argv) => {
           use: ["style-loader", "css-loader", "sass-loader"]
         },
         {
+          test: /\.css$/i,
+          use: ["style-loader", "css-loader"]
+        },
+        {
           test: /\.(ts|js)?$/,
           use: "ts-loader",
           exclude: /node_modules/

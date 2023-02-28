@@ -1,5 +1,5 @@
 import Split from "split.js";
-
+import "github-markdown-css/github-markdown-light.css";
 import "./style.scss";
 
 const MARKDOWN_TEXT_KEY = "markdown-text";
