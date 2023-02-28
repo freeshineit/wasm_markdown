@@ -37,7 +37,7 @@ cd docs && http-server -p 8080
 ├── LICENSE
 ├── README.md
 ├── app            # FE
-│   ├── index.js
+│   ├── index.ts
 │   └── style.scss
 ├── package.json
 ├── public        # static files
