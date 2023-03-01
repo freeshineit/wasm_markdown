@@ -21,6 +21,10 @@ pulldown-cmark = { version = "0.9.1", default-features = false, features = ["sim
 wee_alloc = { version = "0.4.5", optional = true }
 
 
+[features]
+default = ["wee_alloc"]
+
+
 [dev-dependencies]
 wasm-bindgen-test = "0.3"
 
